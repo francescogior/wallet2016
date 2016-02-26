@@ -1,0 +1,19 @@
+{
+  "name": "wallet2016",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/francescogior/wallet2016.git"
+  },
+  "author": "Francesco Giordano",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/francescogior/wallet2016/issues"
+  },
+  "homepage": "https://github.com/francescogior/wallet2016#readme"
+}
