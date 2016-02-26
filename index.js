@@ -57,9 +57,12 @@ const calculateBalance = (stepBalances) => stepBalances.reduce((acc, comp) => ({
   spent: sumValues(acc.spent, comp.computed.spent)
 }), { balance: {}, given: {}, spent: {} })
 
+const displayBalance = (balanceObj) => _.map(balanceObj, (value, person) => `__${person}__: ${value}€`)
+
 // routes
 app.post("/", function(req, res) {
   const text = req.body.text;
+  console.log({ text });
   Line.find((err, lines) => {
     if (err) {
       return res.json({ err });
@@ -75,6 +78,7 @@ app.post("/", function(req, res) {
     return Line.create({ text }, (err, line) => err ? res.json({ err }) : res.json({
       lastLineAdded: toDisplay(line),
       lastTransactionBalance: _.mapValues(_.last(computations).computed, filterZeroes),
+      text: `LINE ADDED: _${toDisplay(line)}_\BALANCE:\n${displayBalance(calculateBalance(computations).balance).join('\n')}`,
       balance: calculateBalance(computations)
     }));
   })
