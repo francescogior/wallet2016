@@ -61,7 +61,7 @@ const displayBalance = (balanceObj) => _.map(balanceObj, (value, person) => `__$
 
 // routes
 app.post("/", function(req, res) {
-  const text = req.body.text;
+  const text = req.body.text.replace('&amp;', '&').replace('&lt;', '<').replace('&gt;', '>');
   console.log({ text });
   Line.find((err, lines) => {
     if (err) {
