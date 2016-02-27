@@ -47,15 +47,21 @@ const Line = require('./models/line');
 const toDisplay = line => `${line.text} - ${line.createdAt} - ${line._id}`
 const filterZeroes = obj => _.pickBy(obj, v => v !== 0)
 const sumValues = (obj1, obj2) => Object.assign({},
-  _.mapValues(obj1, (value, key) => value + (obj2 ? (obj2[key] || 0) : 0)),
-  _.mapValues(obj2, (value, key) => value + (obj1 ? (obj1[key] || 0) : 0))
+  _.mapValues(obj1, (value, key) => (value || 0) + (obj2 ? (obj2[key] || 0) : 0)),
+  _.mapValues(obj2, (value, key) => (value || 0) + (obj1 ? (obj1[key] || 0) : 0))
 )
 
-const calculateBalance = (stepBalances) => stepBalances.reduce((acc, comp) => ({
+const l = x => {
+  console.log({x});
+  return x;
+}
+
+const calculateBalance = (stepBalances) => _.mapValues(stepBalances.reduce((acc, comp) => l(({
   balance: sumValues(acc.balance, comp.computed.balance),
   given: sumValues(acc.given, comp.computed.given),
   spent: sumValues(acc.spent, comp.computed.spent)
-}), { balance: {}, given: {}, spent: {} })
+})), { balance: {}, given: {}, spent: {} }), x => typeof x === 'number' ? _.round(x) : x)
+
 
 const displayBalance = (balanceObj) => _.map(balanceObj, (value, person) => `*${person}*: ${value}€`)
 
