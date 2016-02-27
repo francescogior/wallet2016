@@ -63,7 +63,8 @@ const calculateBalance = (stepBalances) => _.mapValues(stepBalances.reduce((acc,
 })), { balance: {}, given: {}, spent: {} }), x => typeof x === 'number' ? _.round(x) : x)
 
 
-const displayBalance = (balanceObj) => _.map(balanceObj, (value, person) => `*${person}*: ${value}€`)
+const displayBalance = (balanceObj) => _.sortBy(_.map(balanceObj, (value, person) => ({ value, person })), p => p.value)
+  .map(p => `*${p.person}*: ${p.value}€`).reverse()
 
 // routes
 app.post("/", function(req, res) {
